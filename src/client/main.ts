@@ -462,6 +462,15 @@ export async function load() {
         }
     }
 
+    function jump() {
+        const user = getLocalUser()!;
+        if (user && user.position) {
+            const pos = user.position;
+            moveTo(pos[0], pos[1], pos[2]++)
+            setTimeout( () => moveTo(pos[0], pos[1], pos[2]), 400)
+        }
+    }
+
     function playFromSearchResult(args: string) {
         const index = parseInt(args, 10) - 1;
 
@@ -676,7 +685,7 @@ export async function load() {
     }
 
     const gameKeys = new Map<string, () => void>();
-    gameKeys.set('Tab', () => chatToggle.click());
+    gameKeys.set('Tab', chatToggle.click);
     gameKeys.set('1', () => toggleEmote('wvy'));
     gameKeys.set('2', () => toggleEmote('shk'));
     gameKeys.set('3', () => toggleEmote('rbw'));
@@ -685,6 +694,7 @@ export async function load() {
     gameKeys.set('ArrowRight', () => move(...moveVector(0)));
     gameKeys.set('ArrowDown', () => move(...moveVector(3)));
     gameKeys.set('ArrowUp', () => move(...moveVector(1)));
+    gameKeys.set('Space', jump);
 
     const rot = Math.PI / 4;
 
